@@ -1,0 +1,80 @@
+<div class="w-100 ">
+    <div class="row">
+        <div class="col-12 color-strip">
+            <h1>ARCHIVO DE NOTICIAS</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container noticias-container">
+
+    
+    <div class="row">
+
+        <article class="col-md-6" *ngFor="let noticia of listNoticias; let i = index">
+            <div class="editor" >
+                <button  type="button" class="btn btn-primary btn-sm" (click)="this.openModalEditarNoticia(i, contentmodaleditarnoticia)">EDITAR</button>
+                <button  type="button" class="btn btn-danger  btn-sm" (click)="this.openModalBorrarNoticia(i, contentmodalborrarnoticia )">BORRAR</button>
+            </div>
+
+            <h2> {{noticia['titulo']}}
+                <span> {{noticia['fecha'] | date: 'dd/MM/y'}}</span>
+            </h2>
+            
+            <img  src="{{noticia['imagen_titulo']['url']}}" width="100">
+            <div [innerHTML]="noticia['content'].substring(0, 171)"></div>
+            <a href="https://www3.labanca.com.uy/noticias/show/{{noticia['id']}}">Seguir Leyendo</a>
+
+           
+
+        </article>
+    </div>
+</div>
+
+
+
+
+
+<!--modals -->
+
+
+<ng-template #contentmodaleditarnoticia let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Editar Noticia</h4>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+                <textarea
+                    name="descripcion"
+                    class="form-control"
+                    cols=60
+                    rows=10
+                    [(ngModel)]="descripcion"
+                >
+                </textarea>
+				
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" aria-label="Cancelar" (click)="modal.close('Cancelar')">Cancelar</button>
+		<button type="submit" class="btn btn-success" (click)="modal.close('GUARDAR')">Guardar</button>
+	</div>
+</ng-template>
+
+
+
+<ng-template #contentmodalborrarnoticia let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Borrar Noticia</h4>
+	</div>
+	<div class="modal-body">
+        <p> ¿Está seguro que desea borrar esta noticia ?</p>
+		
+	</div>
+	<div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" aria-label="Cancelar" (click)="modal.close('Cancelar')">Cancelar</button>
+		<button type="button" class="btn btn-danger" (click)="modal.close('BORRAR')">Borrar Noticia</button>
+	</div>
+</ng-template>

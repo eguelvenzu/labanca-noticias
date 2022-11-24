@@ -1,0 +1,9 @@
+{
+    "/noticias": {
+    "target": "https://www3.labanca.com.uy",
+    "changeOrigin":true,
+    "secure": false,
+    "logLevel": "debug"
+    
+    }
+}
