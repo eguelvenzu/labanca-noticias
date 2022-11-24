@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService} from '../../servicios/api.service';
 
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { PopupeditnoticiaComponent } from './popupeditnoticia/popupeditnoticia.component';
+import { PopupdeletenoticiaComponent } from './popupdeletenoticia/popupdeletenoticia.component';
 
 @Component({
   selector: 'app-noticias',
@@ -14,7 +16,7 @@ export class NoticiasComponent implements OnInit {
   listNoticias: any[] = [];
 
   closeResult = ''; //se usa para saber que apretaron en los modales
-  descripcion = ""; //se usa como 2 way binding para editar la noticia
+  descripcion = ''; //se usa como 2 way binding para editar la noticia
   
   constructor(private api:ApiService , private modalService:NgbModal) { }
 
@@ -39,18 +41,17 @@ export class NoticiasComponent implements OnInit {
     }
   }
 
-  openModalBorrarNoticia(index:number, content)
+  openModalBorrarNoticia(index:number)
    {
    
-		const modalRef = this.modalService.open(content, { backdrop:false , centered:true });
-    
+    const modalRef = this.modalService.open(PopupdeletenoticiaComponent, { backdrop:false , centered:true });
+    modalRef.componentInstance.descripcion = this.descripcion;
+
     modalRef.result.then(
 			(result) => {
-				this.closeResult = `${result}`;
-        console.log(this.closeResult);
-        if (this.closeResult == "BORRAR")
+        console.log("openModalBorrarNoticia result: " + result);
+        if (result == "BORRAR")
         {
-
           let noticiaId = this.listNoticias[index]['id']; //obtenemos el id de la noticia
 
           //BORRAR LA NOTICIA localmente
@@ -59,7 +60,6 @@ export class NoticiasComponent implements OnInit {
           //y guardar las noticias en el sessionStorage
           sessionStorage.listNoticias = JSON.stringify(this.listNoticias);
 
-
           //llamar a api para que borre la noticia
           this.api.deleteNoticia(noticiaId);
                     
@@ -67,45 +67,47 @@ export class NoticiasComponent implements OnInit {
         }
 
 			}
-		);
+		).catch( (result) => { 
+      console.log("cancelar");
+    });
 
    }
 
  
-   openModalEditarNoticia(index:number, content) 
+   openModalEditarNoticia(index:number) 
    {
-    let noticia = this.listNoticias[index];
+    console.log("openModalEditarNoticia");
 
+    //obtengo la descripción actual de la noticia
+    let noticia = this.listNoticias[index];
     this.descripcion = noticia['content'];
 
 
-		const modalRef = this.modalService.open(content, { backdrop:false , centered:true });
-    
+    const modalRef = this.modalService.open(PopupeditnoticiaComponent, { backdrop:false , centered:true });
+    modalRef.componentInstance.descripcion = this.descripcion;
+
     modalRef.result.then(
 			(result) => {
 
-        console.log("guardar");
+         console.log("guardar");
 
-				this.closeResult = `${result}`;
+          let noticiaId = this.listNoticias[index]['id']; //obtenemos el id de la noticia
 
-        if (this.closeResult == "GUARDAR")
-        {
-            let noticiaId = this.listNoticias[index]['id']; //obtenemos el id de la noticia
+          //actualiza la noticia 
+          noticia['content']  =  result;  //descripcion
 
-            //actualiza la noticia 
-            noticia['content']  =  this.descripcion; 
+          //y guarda en sessión
+          sessionStorage.listNoticias = JSON.stringify(this.listNoticias);
 
-            //y guarda en sessión
-            sessionStorage.listNoticias = JSON.stringify(this.listNoticias);
+          //llamar a api para que edite  la noticia
+          this.api.editNoticia(noticiaId, this.descripcion);
 
-            //llamar a api para que edite  la noticia
-            this.api.editNoticia(noticiaId, this.descripcion);
-
-            this.ngOnInit();
+          this.ngOnInit();
         }
-
-			}
-    );
+			
+    ).catch( (result) => { 
+      console.log("cancelar");
+    });
 
 	}
 }

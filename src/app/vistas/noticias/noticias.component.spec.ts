@@ -2,10 +2,14 @@ import { ComponentFixture, TestBed ,waitForAsync} from '@angular/core/testing';
 import { NoticiasComponent } from './noticias.component';
 import { ApiService } from 'src/app/servicios/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import {NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 describe('NoticiasComponent', () => {
   let component: NoticiasComponent;
   let fixture: ComponentFixture<NoticiasComponent>;
+
+  let modalService: NgbModal;
+  let modalRef: NgbModalRef;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -14,6 +18,8 @@ describe('NoticiasComponent', () => {
     })
     .compileComponents();
 
+    modalService = TestBed.inject(NgbModal);
+    //modalRef = modalService.open()
     fixture = TestBed.createComponent(NoticiasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -48,6 +54,7 @@ describe('NoticiasComponent', () => {
   it('should delete a noticia correctly ', waitForAsync((ApiService) => { 
     
     let cantidadInicial = component.listNoticias.length;
+
 
     let cantidadFinal = component.listNoticias.length;
 

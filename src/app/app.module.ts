@@ -7,11 +7,16 @@ import { NoticiasComponent } from './vistas/noticias/noticias.component';
 import { HttpClientModule} from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule} from '@angular/forms';
+import { PopupeditnoticiaComponent } from './vistas/noticias/popupeditnoticia/popupeditnoticia.component';
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import { PopupdeletenoticiaComponent } from './vistas/noticias/popupdeletenoticia/popupdeletenoticia.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NoticiasComponent
+    NoticiasComponent,
+    PopupeditnoticiaComponent,
+    PopupdeletenoticiaComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +25,8 @@ import { FormsModule} from '@angular/forms';
     NgbModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [NgbActiveModal],
+  bootstrap: [AppComponent],
+  entryComponents: [ PopupeditnoticiaComponent ]
 })
 export class AppModule { }
