@@ -12,11 +12,8 @@ export class PopupeditnoticiaComponent implements OnInit {
   @Input() public descripcion;
   
   constructor(private activeModal:NgbActiveModal) { }
-  
-  
+    
   onGuardar():void {
-    console.log("close - popup");
-    console.log("descripcion:" + this.descripcion);
     
     //en lugar de usar un EventEmitter, paso la nueva descripción al cerrar el modal
     this.activeModal.close(this.descripcion);

@@ -13,9 +13,9 @@ import { PopupdeletenoticiaComponent } from './popupdeletenoticia/popupdeletenot
 })
 export class NoticiasComponent implements OnInit {
 
+  modalRef;
   listNoticias: any[] = [];
 
-  closeResult = ''; //se usa para saber que apretaron en los modales
   descripcion = ''; //se usa como 2 way binding para editar la noticia
   
   constructor(private api:ApiService , private modalService:NgbModal) { }
@@ -44,10 +44,10 @@ export class NoticiasComponent implements OnInit {
   openModalBorrarNoticia(index:number)
    {
    
-    const modalRef = this.modalService.open(PopupdeletenoticiaComponent, { backdrop:false , centered:true });
-    modalRef.componentInstance.descripcion = this.descripcion;
+    this.modalRef = this.modalService.open(PopupdeletenoticiaComponent, { backdrop:false , centered:true });
+    //modalRef.componentInstance.descripcion = this.descripcion;
 
-    modalRef.result.then(
+    this.modalRef.result.then(
 			(result) => {
         console.log("openModalBorrarNoticia result: " + result);
         if (result == "BORRAR")
@@ -83,10 +83,10 @@ export class NoticiasComponent implements OnInit {
     this.descripcion = noticia['content'];
 
 
-    const modalRef = this.modalService.open(PopupeditnoticiaComponent, { backdrop:false , centered:true });
-    modalRef.componentInstance.descripcion = this.descripcion;
+    this.modalRef = this.modalService.open(PopupeditnoticiaComponent, { backdrop:false , centered:true });
+    this.modalRef.componentInstance.descripcion = this.descripcion;
 
-    modalRef.result.then(
+    this.modalRef.result.then(
 			(result) => {
 
          console.log("guardar");
