@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed ,waitForAsync} from '@angular/core/testing';
 import { NoticiasComponent } from './noticias.component';
 import { ApiService } from 'src/app/servicios/api.service';
 import { HttpClientModule } from '@angular/common/http';
-import {NgbModal, NgbModalRef, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { PopupdeletenoticiaComponent } from './popupdeletenoticia/popupdeletenoticia.component';
 import { PopupeditnoticiaComponent } from './popupeditnoticia/popupeditnoticia.component';
 
@@ -31,6 +31,7 @@ describe('NoticiasComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+ 
  
   it('should render title', () => {
     const fixture = TestBed.createComponent(NoticiasComponent);
